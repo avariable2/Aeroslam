@@ -14,6 +14,14 @@ public class Vol {
 		this.numAvion = unNumA;
 		this.destination = uneDest;
 	}
+	public Vol(int unNumVol, int untype, Date uneDate,int unNumA,String uneDest, int uneIdP){
+		this.numVol = unNumVol;
+		this.type = untype;
+		this.date = uneDate;
+		this.numAvion = unNumA;
+		this.destination = uneDest;
+		this.id_personne = uneIdP;
+	}
 	public int getType(){
 		return type;
 	}
