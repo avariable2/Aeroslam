@@ -121,7 +121,7 @@ public class Modele {
 			st = connexion.prepareStatement("SELECT * FROM Destination ");
 			rs = st.executeQuery();
 			while(rs.next()){
-				Destination uneDest = new Destination(rs.getString(2),rs.getString(3));
+				Destination uneDest = new Destination(rs.getInt(1),rs.getString(2),rs.getString(3));
 				lesDestiantion.add(uneDest);
 			}
 			rs.close();
@@ -137,5 +137,24 @@ public class Modele {
 		ArrayList<Destination> lesDestination = Modele.voirDestination();
 		int nb = lesDestination.size();
 		return nb;
+	}
+	public static boolean ajouteVolCourrier( Date uneDate, int id, int unD){
+		boolean rep = false;
+		Modele.connexion();
+		try {
+			st = connexion.prepareStatement("INSERT INTO volcourrier VALUES(null,?,?,?,null)");
+			String conversion = uneDate.getDateFrancais();
+			st.setString(1,conversion );
+			st.setInt(2, id);
+			st.setInt(3,unD);
+			st.executeUpdate();
+			rep = true;
+			st.close();
+			Modele.deconnexion();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rep;
 	}
 }
