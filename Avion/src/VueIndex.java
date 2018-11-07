@@ -28,7 +28,7 @@ public class VueIndex extends JFrame implements ActionListener{
 		// Page de connexion
 		this.setTitle("AeroSLAM");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(500, 500);
+		this.setSize(300, 300);
 		this.setLayout(new GridLayout(6,1));
 		this.txt1 = new JLabel("Login : ");
 		this.txtf1 = new JTextField();
@@ -88,9 +88,11 @@ public class VueIndex extends JFrame implements ActionListener{
 		this.menuC.add(this.itemD);
 		this.menuD.add(this.itemDaj);
 		this.menuD.add(this.itemDac);
+		this.menuV.add(this.itemVaj);
 		this.barre.add(this.menuC);
 		this.barre.add(this.menuA);
 		this.barre.add(this.menuD);
+		this.barre.add(this.menuV);
 		this.setJMenuBar(this.barre);
 	}
 	
@@ -200,7 +202,7 @@ public class VueIndex extends JFrame implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			getContentPane().removeAll();
-			getContentPane().add(new VueAjouterDestination());
+			getContentPane().add(new VueAjouterVol());
 			menu();
 			revalidate();
 		}

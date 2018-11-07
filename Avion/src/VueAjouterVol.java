@@ -2,6 +2,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -13,36 +14,41 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel txt1,txt2,txt3,txt4;
+	private JLabel txt1,txt2,txt3;
 	private JTextField txtf1,txtf2;
 	private JRadioButton rad1,rad2;
 	private ButtonGroup groupeBouton;
 	private JButton btn;
 	private JComboBox<IndexLibelle> listeAvion;
 	private JComboBox<IndexLibelle> listeDestination;
+	private JLabel txt4;
 	
 	
 	public VueAjouterVol(){
-		this.setLayout(new GridLayout(6,1));
-		
+		this.setLayout(new GridLayout(10,1));
+		//On saisi le vol
 		this.txt1 = new JLabel("Saisir votre vol : ");
 		this.rad1 = new JRadioButton("Courrier");
-		this.rad1 = new JRadioButton("Commerciaux");
+		this.rad2 = new JRadioButton("Commerciaux");
 		this.groupeBouton= new ButtonGroup();
 		this.groupeBouton.add(this.rad1);
 		this.groupeBouton.add(this.rad2);
-		this.txt2 = new JLabel("Saisir la date de depart : ");
+		
+		// on saisie la date
+		this.txt2 = new JLabel("Saisir la date de depart : *Ecrire sous la forme aaaa-mm-jj ");
 		this.txtf2 = new JTextField();
 		this.txtf2.setPreferredSize(new Dimension(100,30));
-		this.txt4 = new JLabel("Selectionner Avion :");
-	    //On crée l'objet JComboBox
-	    this.listeAvion = new JComboBox<IndexLibelle>();
 		
-	    /*On ajoute des éléments à la liste déroulante. Ces éléments sont de type IndexLibelle et comprennent deux champs correspondant respectivement à l'attribut index et à l'attribut libelle.*/
+	    //On crée l'objet JComboBox
+		/*On ajoute des éléments à la liste déroulante. Ces éléments sont de type IndexLibelle et comprennent deux champs correspondant respectivement à l'attribut index et à l'attribut libelle.*/
+		this.txt4 = new JLabel("Selectionner Avion :");
+		this.listeAvion = new JComboBox<IndexLibelle>();
 	    ArrayList<Avion> liste = Modele.voirAvion();
 	    for(int i=0;i<Modele.getNbAvion();i++){
 	    	this.listeAvion.addItem(new IndexLibelle(liste.get(i).getNumAvion(),liste.get(i).getNomAvion()));
 	    }
+	    
+	    // On saisie la destination
 	    this.txt3 = new JLabel("Saisir la destination : ");
 	    this.listeDestination = new JComboBox<IndexLibelle>();
 	    ArrayList<Destination> liste2 = Modele.voirDestination();
@@ -57,6 +63,7 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 		this.add(this.rad2);
 		this.add(this.txt2);
 		this.add(this.txtf2);
+		this.add(this.txt4);
 		this.add(this.listeAvion);
 		this.add(this.txt3);
 		this.add(this.listeDestination);
@@ -69,10 +76,15 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 		if(e.getSource() == this.btn){
 			int id = ((IndexLibelle) listeAvion.getSelectedItem()).getNumAvion();
 			int id2 = ((IndexLibelle) listeDestination.getSelectedItem()).getNumAvion();
-			if(!this.txtf2.getText().equals(null) && !this.txtf1.getText().equals(null)){
+			if(!this.txtf2.getText().equals(null)){
 				if(this.rad1.isSelected()){
-					Date laDate = new Date(null);
+					int annee = Integer.parseInt(this.txtf2.getText().substring(0,4));
+					int mois = Integer.parseInt(this.txtf2.getText().substring(5,7));
+					int jour = Integer.parseInt(this.txtf2.getText().substring(8,10));
+					LocalDate date = LocalDate.of(annee,mois,jour);
+					Date laDate = new Date(date);
 					Modele.ajouteVolCourrier(laDate,id,id2);
+					this.txt3 = new JLabel("Votre vol a ete ajouter !");
 				}
 			}else{
 				this.txt3 = new JLabel("Veuillez saisir tout les champs.");
