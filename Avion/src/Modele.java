@@ -6,6 +6,12 @@ public class Modele {
 	private static PreparedStatement st;
 	private static ResultSet rs;
 	
+	/***
+	 * Function qui permet d'etablir une connexion a la base de donne jusqu'a sa fermeture. Elle renvoie true si la connexion est reussi
+	 * et false si elle n'a pas aboutie.
+	 * @author Adrien
+	 * @return true/false
+	 */
 	public static boolean connexion(){
 		boolean rep = false;
 		try{
@@ -20,7 +26,12 @@ public class Modele {
 		}
 		return rep;
 	}
-	
+	/***
+	 * Function qui permet de se deconnecter de la base de donnée. Elle renvoie true si le lien entre la base a été romput 
+	 * et false si c'est l'inverse qui se produit.
+	 * @author Adrien
+	 * @return true/false
+	 */
 	public static boolean deconnexion(){
 		boolean rep = false;
 		try {
@@ -32,7 +43,14 @@ public class Modele {
 		}
 		return rep;
 	}
-	
+	/***
+	 * Function qui permet de verifier que le nom d'utilisateur et le mot de passe mit en paramtere est bien dans la base de donnée
+	 * et que c'est bien un comptable.Si oui, la fonction renvoie true, sino elle renvoie false.
+	 * @author Adrien
+	 * @param unLog
+	 * @param unMdp
+	 * @return true/false
+	 */
 	public static int coBdd(String unLog, String unMdp){
 		int rep=0;
 		Modele.connexion();
@@ -138,13 +156,34 @@ public class Modele {
 		int nb = lesDestination.size();
 		return nb;
 	}
-	public static boolean ajouteVolCourrier( Date uneDate, int id, int unD){
+	public static boolean ajouteVolCourrier(Date uneDate, int id, int unD){
+		boolean rep = false;
+		if((Modele.getNbAvion()>0) && (Modele.getNbDestination()>0)){ // On ne peut pas ajouter un vol si il n'y a aucun avion creer et aucune destination
+			Modele.connexion();
+			try {
+				st = connexion.prepareStatement("INSERT INTO volcourrier VALUES(null,?,?,?)");
+				java.sql.Date laDate = java.sql.Date.valueOf(uneDate.getDate());
+				st.setDate(1,laDate);
+				st.setInt(2, id);
+				st.setInt(3,unD);
+				st.executeUpdate();
+				rep = true;
+				st.close();
+				Modele.deconnexion();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return rep;
+	}
+	public static boolean ajouteVolCommercial(Date uneDate, int id, int unD){
 		boolean rep = false;
 		Modele.connexion();
 		try {
-			st = connexion.prepareStatement("INSERT INTO volcourrier VALUES(null,?,?,?,null)");
-			String conversion = uneDate.getDateFrancais();
-			st.setString(1,conversion );
+			st = connexion.prepareStatement("INSERT INTO volcommercial VALUES(null,?,?,?)");
+			java.sql.Date laDate = java.sql.Date.valueOf(uneDate.getDate());
+			st.setDate(1,laDate);
 			st.setInt(2, id);
 			st.setInt(3,unD);
 			st.executeUpdate();

@@ -15,7 +15,7 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel txt1,txt2,txt3;
-	private JTextField txtf1,txtf2;
+	private JTextField txtf2;
 	private JRadioButton rad1,rad2;
 	private ButtonGroup groupeBouton;
 	private JButton btn;
@@ -25,7 +25,7 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 	
 	
 	public VueAjouterVol(){
-		this.setLayout(new GridLayout(10,1));
+		this.setLayout(new GridLayout(15,1));
 		//On saisi le vol
 		this.txt1 = new JLabel("Saisir votre vol : ");
 		this.rad1 = new JRadioButton("Courrier");
@@ -76,15 +76,23 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 		if(e.getSource() == this.btn){
 			int id = ((IndexLibelle) listeAvion.getSelectedItem()).getNumAvion();
 			int id2 = ((IndexLibelle) listeDestination.getSelectedItem()).getNumAvion();
-			if(!this.txtf2.getText().equals(null)){
+			if(!this.txtf2.getText().equals(null) && (Modele.getNbAvion()>0) && (Modele.getNbDestination()>0)){
 				if(this.rad1.isSelected()){
-					int annee = Integer.parseInt(this.txtf2.getText().substring(0,4));
-					int mois = Integer.parseInt(this.txtf2.getText().substring(5,7));
-					int jour = Integer.parseInt(this.txtf2.getText().substring(8,10));
-					LocalDate date = LocalDate.of(annee,mois,jour);
+					LocalDate date = LocalDate.parse(this.txtf2.getText());//LocalDate localDate = LocalDate.parse(date);
 					Date laDate = new Date(date);
 					Modele.ajouteVolCourrier(laDate,id,id2);
 					this.txt3 = new JLabel("Votre vol a ete ajouter !");
+					this.add(this.txt3);
+					revalidate();
+				}else{
+					if(this.rad2.isSelected()){
+						LocalDate date = LocalDate.parse(this.txtf2.getText());//LocalDate localDate = LocalDate.parse(date);
+						Date laDate = new Date(date);
+						Modele.ajouteVolCourrier(laDate,id,id2);
+						this.txt3 = new JLabel("Votre vol a ete ajouter !");
+						this.add(this.txt3);
+						revalidate();
+					}
 				}
 			}else{
 				this.txt3 = new JLabel("Veuillez saisir tout les champs.");
