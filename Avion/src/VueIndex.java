@@ -184,18 +184,6 @@ public class VueIndex extends JFrame implements ActionListener{
 		}
 		
 	}
-	class Connexion implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			getContentPane().removeAll();
-			getContentPane().add(new VueAjouterDestination());
-			menu();
-			revalidate();
-		}
-		
-	}
 	class AjoutVol implements ActionListener{
 
 		@Override
