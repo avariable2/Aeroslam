@@ -45,11 +45,11 @@ public class Modele {
 	}
 	/***
 	 * Function qui permet de verifier que le nom d'utilisateur et le mot de passe mit en paramtere est bien dans la base de donnée
-	 * et que c'est bien un comptable.Si oui, la fonction renvoie true, sino elle renvoie false.
+	 * et que c'est bien un comptable.Si oui, la fonction renvoie 1, sinon elle renvoie 0.
 	 * @author Adrien
 	 * @param unLog
 	 * @param unMdp
-	 * @return true/false
+	 * @return 0/1
 	 */
 	public static int coBdd(String unLog, String unMdp){
 		int rep=0;
@@ -70,6 +70,13 @@ public class Modele {
 		}
 		return rep;
 	}
+	/***
+	 * Function qui permet de saisir dans la table Avion un avion. 
+	 * @author Adrien
+	 * @param unNb
+	 * @param unNom
+	 * @return true/false
+	 */
 	// Avion
 	public static boolean ajouteAvion(int unNb, String unNom){
 		boolean rep = false;
@@ -88,6 +95,11 @@ public class Modele {
 		}
 		return rep;
 	}
+	/***
+	 * Function qui permet de renvoyer dans une ArrayList la liste des Avions stockés dans la base de donnée.
+	 * @author Adrien
+	 * @return ArrayList<Avion>unTableau d'Avion
+	 */
 	public static ArrayList<Avion> voirAvion(){
 		ArrayList<Avion> lesAvion = new ArrayList<Avion>();
 		Modele.connexion();
@@ -107,14 +119,33 @@ public class Modele {
 		Modele.deconnexion();
 		return lesAvion;
 	}
+	/***
+	 * Function qui retourne le nombre d'avion créer dans la table Avion.
+	 * @author Adrien
+	 * @return nb qui correspond au nombre d'avion dans la bdd
+	 */
 	public static int getNbAvion(){
-		ArrayList<Avion> lesAvion = Modele.voirAvion();
-		int nb = lesAvion.size();
+		int nb = 0;
+		Modele.connexion();
+		try {
+			st= connexion.prepareStatement("SELECT COUNT(numAv) AS nb FROM Avion");
+			rs = st.executeQuery();
+			rs.next();
+			nb = rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return nb;
 	}
 	
+	/***
+	 * Function qui permet d'ajouter une destination garce au parametre dans la table Destination.
+	 * @param uneVille
+	 * @param unPays
+	 * @return true/false
+	 */
 	//Destination 
-	
 	public static boolean ajouteDestination(String uneVille, String unPays){
 		boolean rep = false;
 		Modele.connexion();
@@ -132,6 +163,10 @@ public class Modele {
 		}
 		return rep;
 	}
+	/***
+	 * 
+	 * @return
+	 */
 	public static ArrayList<Destination> voirDestination(){
 		ArrayList<Destination> lesDestiantion = new ArrayList<Destination>();
 		Modele.connexion();
