@@ -26,7 +26,7 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 	private JPanel panelVol,panelDate,panelAD;
 	
 	public VueAjouterVol(){
-		this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
+		this.setLayout(new GridLayout(3,1));
 		
 		//On saisi le vol
 		this.panelVol = new JPanel();

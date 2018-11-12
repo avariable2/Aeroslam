@@ -1,6 +1,5 @@
 import java.sql.*;
 import java.util.ArrayList;
-import java.awt.*;
 
 public class Modele {
 	private static Connection connexion;
@@ -350,7 +349,7 @@ public class Modele {
 	}
 	/***
 	 * Function qui verifie que la chaine rentrer en parametre ne contient que des nombres.
-	 * @param uneA
+	 * @param uneA de type String
 	 * @return true/false
 	 */
 	public static boolean verifSaisie(String uneA){

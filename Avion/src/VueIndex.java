@@ -32,7 +32,8 @@ public class VueIndex extends JFrame implements ActionListener{
 		this.setTitle("AeroSLAM");
 		//this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(700, 500);
+		this.setSize(400, 400);
+		//this.setResizable(false);
 		this.setLayout(new GridLayout(6,1));
 		this.txt1 = new JLabel("Login : ");
 		this.txtf1 = new JTextField();

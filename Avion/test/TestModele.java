@@ -1,13 +1,14 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
-import org.junit.Test;
 
 import org.junit.Before;
+import org.junit.Test;
 
 public class TestModele {
 	private boolean rep,rep2;
 	private int nb;
+	
 	@Before
 	public void setUp() {
 		int unId = 1; // exemple de numAvion
