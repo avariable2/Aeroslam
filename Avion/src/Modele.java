@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.awt.*;
 
 public class Modele {
 	private static Connection connexion;
@@ -164,8 +165,9 @@ public class Modele {
 		return rep;
 	}
 	/***
-	 * 
-	 * @return
+	 * Function qui permet de renvoyer les destinations retrer dans la table destination de la bdd.
+	 * @author Adrien
+	 * @return ArrayList<Destination> lesDestinations
 	 */
 	public static ArrayList<Destination> voirDestination(){
 		ArrayList<Destination> lesDestiantion = new ArrayList<Destination>();
@@ -186,11 +188,33 @@ public class Modele {
 		Modele.deconnexion();
 		return lesDestiantion;
 	}
+	/***
+	 * Function qui retourne le nombre de destination creer dans la table destination.
+	 * @author Adrien
+	 * @return nb de Destination dans la bdd
+	 */
 	public static int getNbDestination(){
-		ArrayList<Destination> lesDestination = Modele.voirDestination();
-		int nb = lesDestination.size();
+		int nb = 0;
+		Modele.connexion();
+		try {
+			st= connexion.prepareStatement("SELECT COUNT(id_dest) AS nb FROM Destination");
+			rs = st.executeQuery();
+			rs.next();
+			nb = rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return nb;
 	}
+	/***
+	 * Function qui ajoute un Vol dans la table VolCourrier grâce aux parametres.
+	 * @author Adrien
+	 * @param uneDate
+	 * @param id
+	 * @param unD
+	 * @return true/false
+	 */
 	public static boolean ajouteVolCourrier(Date uneDate, int id, int unD){
 		boolean rep = false;
 		if((Modele.getNbAvion()>0) && (Modele.getNbDestination()>0)){ // On ne peut pas ajouter un vol si il n'y a aucun avion creer et aucune destination
@@ -205,6 +229,7 @@ public class Modele {
 				rep = true;
 				st.close();
 				Modele.deconnexion();
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -212,6 +237,37 @@ public class Modele {
 		}
 		return rep;
 	}
+	/***
+	 * Function qui ajoute un Vol dans la table VolCourrier grâce aux parametres.
+	 * @return ArrayList<VolCourrier>
+	 */
+	public static ArrayList<VolCourrier> voirVolCourrier(){
+		ArrayList<VolCourrier> lesVol = new ArrayList<VolCourrier>();
+		Modele.connexion();
+		try {
+			st = connexion.prepareStatement("SELECT * FROM VolCourrier ");
+			rs = st.executeQuery();
+			while(rs.next()){
+				VolCourrier unVol = new VolCourrier(rs.getInt(1),new Date(rs.getDate(2).toLocalDate()),rs.getInt(3),rs.getInt(4));
+				lesVol.add(unVol);
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Modele.deconnexion();
+		return lesVol;		
+	}
+	
+	/***
+	 * Function qui ajoute un Vol dans la table VolCommerciaux grâce aux parametres.
+	 * @param uneDate
+	 * @param id
+	 * @param unD
+	 * @return true/false
+	 */
 	public static boolean ajouteVolCommercial(Date uneDate, int id, int unD){
 		boolean rep = false;
 		Modele.connexion();
@@ -230,5 +286,85 @@ public class Modele {
 			e.printStackTrace();
 		}
 		return rep;
+	}
+	/***
+	 * Function qui retourne la liste des vols commercial dans une ArrayList.
+	 * @author Adrien
+	 * @return ArrayList<VolCommercial>
+	 */
+	public static ArrayList<VolCommercial> voirVolCommercial(){
+		ArrayList<VolCommercial> lesVol = new ArrayList<VolCommercial>();
+		Modele.connexion();
+		try {
+			st = connexion.prepareStatement("SELECT * FROM VolCommercial ");
+			rs = st.executeQuery();
+			while(rs.next()){
+				VolCommercial unVol = new VolCommercial(rs.getInt(1),new Date(rs.getDate(2).toLocalDate()),rs.getInt(3),rs.getInt(4));
+				lesVol.add(unVol);
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Modele.deconnexion();
+		return lesVol;		
+	}
+	/***
+	 * Function qui permet de recuperer la liste des Vols toute categorie.
+	 * @author Adrien
+	 * @return ArrayList<Vol>
+	 */
+	public static ArrayList<Vol> voirVol(){
+		ArrayList<Vol> lesVols = new ArrayList<Vol>();
+		ArrayList<VolCommercial> lesVolCommerciaux = Modele.voirVolCommercial();
+		ArrayList<VolCourrier> lesVolCourrier = Modele.voirVolCourrier();
+		for(int i=0;i<lesVolCommerciaux.size();i++){
+			int num = lesVolCommerciaux.get(i).getNumVol();
+			Date date = lesVolCommerciaux.get(i).getDate();
+			int numAvion = lesVolCommerciaux.get(i).getNumAvion();
+			int numDest = lesVolCommerciaux.get(i).getDestination();
+			Vol unVol = new Vol(num,date,numAvion,numDest);
+			unVol.setType(0);// 0 correspond au vol commerciaux et 1 au vol courrier
+			lesVols.add(unVol);
+		}
+		for(int i=0;i<lesVolCourrier.size();i++){
+			int num = lesVolCourrier.get(i).getNumVol();
+			Date date = lesVolCourrier.get(i).getDate();
+			int numAvion = lesVolCourrier.get(i).getNumAvion();
+			int numDest = lesVolCourrier.get(i).getDestination();
+			Vol unVol = new Vol(num,date,numAvion,numDest);
+			unVol.setType(1);// 0 correspond au vol commerciaux et 1 au vol courrier
+			lesVols.add(unVol);
+		}
+		return lesVols;
+	}
+	/***
+	 * Function qui retourne le nombre de vol toute categories.
+	 * @return nb (int)
+	 */
+	public static int getNbVol(){
+		int nb = Modele.voirVol().size();
+		return nb;
+	}
+	/***
+	 * Function qui verifie que la chaine rentrer en parametre ne contient que des nombres.
+	 * @param uneA
+	 * @return true/false
+	 */
+	public static boolean verifSaisie(String uneA){
+		boolean rep = true;
+		int i =0;
+		while(i<uneA.length() && (uneA.charAt(0)=='1' || uneA.charAt(0)=='2') 
+				&& (47< (int)uneA.charAt(i) && (int)uneA.charAt(i) < 58)){ // on recupere le code ascii des caractere et on verifie qu'il sont
+			// compris entre le coide ascii de 0 et de 9.
+			i=i+1;
+		}
+		if(i<uneA.length()){
+			rep = false;
+		}
+		return rep;
+		
 	}
 }

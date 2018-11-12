@@ -1,69 +1,34 @@
 
 public class Vol {
 	private int numVol;
-	private int type;
 	private Date date;
 	private int numAvion;
-	private String destination;
-	private int id_personne;
+	private int numDestination;
+	private int type;
 	
-	public Vol(int unNumVol, int untype, Date uneDate,int unNumA,String uneDest){
+	public Vol(int unNumVol, Date uneDate,int unNumA,int uneDest){
 		this.numVol = unNumVol;
-		this.type = untype;
 		this.date = uneDate;
 		this.numAvion = unNumA;
-		this.destination = uneDest;
+		this.numDestination = uneDest;
 	}
-	public Vol(int unNumVol, int untype, Date uneDate,int unNumA,String uneDest, int uneIdP){
-		this.numVol = unNumVol;
-		this.type = untype;
-		this.date = uneDate;
-		this.numAvion = unNumA;
-		this.destination = uneDest;
-		this.id_personne = uneIdP;
+	public void setType(int unType){
+		this.type = unType;
 	}
 	public int getType(){
-		return type;
+		return this.type;
 	}
-
 	public int getNumVol() {
 		return numVol;
 	}
-
-	public void setNumVol(int numVol) {
-		this.numVol = numVol;
-	}
-
 	public Date getDate() {
 		return date;
 	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
 	public int getNumAvion() {
 		return numAvion;
 	}
-
-	public void setNumAvion(int numAvion) {
-		this.numAvion = numAvion;
-	}
-
-	public String getDestination() {
-		return destination;
-	}
-
-	public void setDestination(String destination) {
-		this.destination = destination;
-	}
-
-	public int getId_personne() {
-		return id_personne;
-	}
-
-	public void setId_personne(int id_personne) {
-		this.id_personne = id_personne;
+	public int getDestination() {
+		return numDestination;
 	}
 	
 }

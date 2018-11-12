@@ -22,13 +22,17 @@ public class VueIndex extends JFrame implements ActionListener{
 	private JButton btn1;
 	private JMenu menuV;
 	private JMenuItem itemVaj;
+	private JMenu menuP;
+	private JMenuItem itemPaj;
+	private JMenuItem itemVac;
 
 	
 	public VueIndex(){
 		// Page de connexion
 		this.setTitle("AeroSLAM");
+		//this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(300, 300);
+		this.setSize(700, 500);
 		this.setLayout(new GridLayout(6,1));
 		this.txt1 = new JLabel("Login : ");
 		this.txtf1 = new JTextField();
@@ -62,26 +66,32 @@ public class VueIndex extends JFrame implements ActionListener{
 	public void menu(){ 
 		// genere le contenue du menu
 		this.barre = new JMenuBar();
-		
+		// Menu Compte
 		this.menuC = new JMenu("Compte");
 		this.itemD = new JMenuItem("Déconnexion");
 		this.itemD.addActionListener(new Deconnection());
-		
+		//Menu Avion
 		this.menuA = new JMenu("Avion");
 		this.itemAaj = new JMenuItem("Ajouter Avion");
 		this.itemAaj.addActionListener(new AjoutAvion());
 		this.itemAc = new JMenuItem("Consulter Avion");
 		this.itemAc.addActionListener(new ConsultationAvion());
-		
+		//Menu Destination
 		this.menuD = new JMenu("Destination");
 		this.itemDaj = new JMenuItem("Ajouter Destination");
 		this.itemDaj.addActionListener(new AjoutDestination());
 		this.itemDac = new JMenuItem("Consulter Destination");
 		this.itemDac.addActionListener(new ConsultationDestination());
-		
+		//Menu Vol
 		this.menuV = new JMenu("Vol");
 		this.itemVaj = new JMenuItem("Ajouter Vol");
 		this.itemVaj.addActionListener(new AjoutVol());
+		this.itemVac = new JMenuItem("Consulter Vol");
+		this.itemVac.addActionListener(new ConsultationVol());
+		//Menu Passager
+		this.menuP = new JMenu("Passager");
+		this.itemPaj = new JMenuItem("Ajouter Passager");
+		//this.itemPaj.addActionListener(new AjoutPassager());
 		
 		this.menuA.add(this.itemAaj);
 		this.menuA.add(this.itemAc);
@@ -89,6 +99,7 @@ public class VueIndex extends JFrame implements ActionListener{
 		this.menuD.add(this.itemDaj);
 		this.menuD.add(this.itemDac);
 		this.menuV.add(this.itemVaj);
+		this.menuV.add(this.itemVac);
 		this.barre.add(this.menuC);
 		this.barre.add(this.menuA);
 		this.barre.add(this.menuD);
@@ -191,6 +202,18 @@ public class VueIndex extends JFrame implements ActionListener{
 			// TODO Auto-generated method stub
 			getContentPane().removeAll();
 			getContentPane().add(new VueAjouterVol());
+			menu();
+			revalidate();
+		}
+		
+	}
+	class ConsultationVol implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			getContentPane().removeAll();
+			getContentPane().add(new VueConsultationVol());
 			menu();
 			revalidate();
 		}

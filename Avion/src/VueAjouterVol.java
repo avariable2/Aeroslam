@@ -14,7 +14,7 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel txt1,txt2,txt3;
+	private JLabel txt1,txt2,txt3,txtJour,txtMois,txtAnnee;
 	private JTextField txtf2;
 	private JRadioButton rad1,rad2;
 	private ButtonGroup groupeBouton;
@@ -22,32 +22,58 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 	private JComboBox<IndexLibelle> listeAvion;
 	private JComboBox<IndexLibelle> listeDestination;
 	private JLabel txt4;
-	
+	private JComboBox listeJ, listeM;
+	private JPanel panelVol,panelDate,panelAD;
 	
 	public VueAjouterVol(){
-		this.setLayout(new GridLayout(15,1));
+		this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
+		
 		//On saisi le vol
+		this.panelVol = new JPanel();
 		this.txt1 = new JLabel("Saisir votre vol : ");
 		this.rad1 = new JRadioButton("Courrier");
 		this.rad2 = new JRadioButton("Commerciaux");
 		this.groupeBouton= new ButtonGroup();
 		this.groupeBouton.add(this.rad1);
 		this.groupeBouton.add(this.rad2);
+		this.panelVol.add(this.txt1);
+		this.panelVol.add(this.rad1);
+		this.panelVol.add(this.rad2);
 		
 		// on saisie la date
-		this.txt2 = new JLabel("Saisir la date de depart : *Ecrire sous la forme aaaa-mm-jj ");
+		this.panelDate = new JPanel();
+		this.txt2 = new JLabel("Saisir la date de depart : ");
+		String[] tabJour = {"01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22",
+				"23","24","25","26","27","28","29","30","31"};
+		String[] tabMois = {"01","02","03","04","05","06","07","08","09","10","11","12"};
+		this.txtJour = new JLabel("Jour: ");
+		this.listeJ = new JComboBox(tabJour); // liste deroulante de tout les jours que l'on peut selectionner
+		this.listeJ.setPreferredSize(new Dimension(100,20));
+		this.txtMois = new JLabel("Mois: ");
+		this.listeM = new JComboBox(tabMois);// litse deroulante de tout les mois que l'on peut selectionner
+		this.listeM.setPreferredSize(new Dimension(100,20));
+		this.txtAnnee = new JLabel("Annee: ");
 		this.txtf2 = new JTextField();
-		this.txtf2.setPreferredSize(new Dimension(100,30));
+		this.txtf2.setPreferredSize(new Dimension(100,20));
+		this.panelDate.add(this.txt2);
+		this.panelDate.add(this.txtJour);
+		this.panelDate.add(this.listeJ);
+		this.panelDate.add(this.txtMois);
+		this.panelDate.add(this.listeM);
+		this.panelDate.add(this.txtAnnee);
+		this.panelDate.add(this.txtf2);
 		
 	    //On crée l'objet JComboBox
 		/*On ajoute des éléments à la liste déroulante. Ces éléments sont de type IndexLibelle et comprennent deux champs correspondant respectivement à l'attribut index et à l'attribut libelle.*/
+		this.panelAD = new JPanel();
 		this.txt4 = new JLabel("Selectionner Avion :");
 		this.listeAvion = new JComboBox<IndexLibelle>();
 	    ArrayList<Avion> liste = Modele.voirAvion();
 	    for(int i=0;i<Modele.getNbAvion();i++){
 	    	this.listeAvion.addItem(new IndexLibelle(liste.get(i).getNumAvion(),liste.get(i).getNomAvion()));
 	    }
-	    
+	    this.panelAD.add(this.txt4);
+	    this.panelAD.add(this.listeAvion);
 	    // On saisie la destination
 	    this.txt3 = new JLabel("Saisir la destination : ");
 	    this.listeDestination = new JComboBox<IndexLibelle>();
@@ -57,47 +83,64 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 	    }
 		this.btn = new JButton("Valider");
 		this.btn.addActionListener(this);
+		this.panelAD.add(this.txt3);
+		this.panelAD.add(this.listeDestination);
+		this.panelAD.add(this.btn);
 		
-		this.add(this.txt1);
-		this.add(this.rad1);
-		this.add(this.rad2);
-		this.add(this.txt2);
-		this.add(this.txtf2);
-		this.add(this.txt4);
-		this.add(this.listeAvion);
-		this.add(this.txt3);
-		this.add(this.listeDestination);
-		this.add(this.btn);
+		this.add(this.panelVol);
+		this.add(this.panelDate);
+		this.add(this.panelAD);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		String mois = (String) this.listeM.getSelectedItem();//on recupere le mois selectionner
+		String jour = (String) this.listeJ.getSelectedItem(); // on recupere le jour selectionner
+		int taille = this.txtf2.getText().length(); // on recupere la taille de la chaine
 		if(e.getSource() == this.btn){
-			int id = ((IndexLibelle) listeAvion.getSelectedItem()).getNumAvion();
-			int id2 = ((IndexLibelle) listeDestination.getSelectedItem()).getNumAvion();
-			if(!this.txtf2.getText().equals(null) && (Modele.getNbAvion()>0) && (Modele.getNbDestination()>0)){
+			if(taille <5 && !this.txtf2.getText().equals(null) && Modele.verifSaisie(this.txtf2.getText()) && (Modele.getNbAvion()>0) && (Modele.getNbDestination()>0)){
+				int idA = ((IndexLibelle) listeAvion.getSelectedItem()).getNumAvion();//id de l'avion selectionner
+				int idD = ((IndexLibelle) listeDestination.getSelectedItem()).getNumAvion();//id de la destination
+				LocalDate date =  LocalDate.parse(this.txtf2.getText()+"-"+mois+"-"+jour);//LocalDate localDate = LocalDate.parse(date);
+				Date laDate = new Date(date);
 				if(this.rad1.isSelected()){
-					LocalDate date = LocalDate.parse(this.txtf2.getText());//LocalDate localDate = LocalDate.parse(date);
-					Date laDate = new Date(date);
-					Modele.ajouteVolCourrier(laDate,id,id2);
-					this.txt3 = new JLabel("Votre vol a ete ajouter !");
+					Modele.ajouteVolCourrier(laDate,idA,idD);
+				}else{
+					if(this.rad2.isSelected()){
+						Modele.ajouteVolCourrier(laDate,idA,idD);
+					}
+				}
+				this.txt3 = new JLabel("Votre vol a ete ajouter !");
+				this.add(this.txt3);
+				revalidate();
+			}else{
+				if((Modele.getNbAvion()==0)){
+					this.txt3 = new JLabel("Vous ne pouvez creer un vol aucun avion n'a été créer.");
 					this.add(this.txt3);
 					revalidate();
 				}else{
-					if(this.rad2.isSelected()){
-						LocalDate date = LocalDate.parse(this.txtf2.getText());//LocalDate localDate = LocalDate.parse(date);
-						Date laDate = new Date(date);
-						Modele.ajouteVolCourrier(laDate,id,id2);
-						this.txt3 = new JLabel("Votre vol a ete ajouter !");
+					if((Modele.getNbDestination()==0)){
+						this.txt3 = new JLabel("Vous ne pouvez creer un vol aucune destination n'a été créer.");
 						this.add(this.txt3);
 						revalidate();
+					}else{
+						if(taille>=5){
+							this.txt3 = new JLabel("La date saisie est trop longue.");
+							this.add(this.txt3);
+							revalidate();
+						}else{
+							if(Modele.verifSaisie(this.txtf2.getText())){
+								this.txt3 = new JLabel("Ne pas saisir une lettre dans la saisie de l'année et/ou rentrez une date censé.");
+								this.add(this.txt3);
+								revalidate();
+							}else{
+								this.txt3 = new JLabel("Veuillez saisir tout les champs.");
+								this.add(this.txt3);
+								revalidate();
+							}
+						}
 					}
 				}
-			}else{
-				this.txt3 = new JLabel("Veuillez saisir tout les champs.");
-				this.add(this.txt3);
-				revalidate();
 			}
 		}
 	}
