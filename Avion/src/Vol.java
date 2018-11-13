@@ -30,5 +30,13 @@ public class Vol {
 	public int getDestination() {
 		return numDestination;
 	}
+	public String toXML(){
+		String chaine = "\n \t <NUMVOL>"+this.numVol+"</NUMVOL>\n";
+		chaine = chaine + "\t <DATE>"+this.date.getDateFrancais()+"</DATE>\n";
+		chaine = chaine + "\t <NUMEROAVION>"+this.numAvion+"</NUMEROAVION>\n\t "
+				+ "<NUMERODESTINATION>"+this.numAvion+"</NUMERODESTINATION>\n"
+						+ "\t <TYPE>"+this.type+"</TYPE>\n";
+		return chaine;
+	}
 	
 }

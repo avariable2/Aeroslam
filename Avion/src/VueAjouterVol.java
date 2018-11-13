@@ -22,9 +22,10 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 	private JComboBox<IndexLibelle> listeAvion;
 	private JComboBox<IndexLibelle> listeDestination;
 	private JLabel txt4;
-	private JComboBox listeJ, listeM;
+	private JComboBox<?> listeJ, listeM;
 	private JPanel panelVol,panelDate,panelAD;
 	
+	@SuppressWarnings("unchecked")
 	public VueAjouterVol(){
 		this.setLayout(new GridLayout(3,1));
 		
@@ -94,15 +95,23 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String mois = (String) this.listeM.getSelectedItem();//on recupere le mois selectionner
-		String jour = (String) this.listeJ.getSelectedItem(); // on recupere le jour selectionner
-		int taille = this.txtf2.getText().length(); // on recupere la taille de la chaine
 		if(e.getSource() == this.btn){
-			if(taille <5 && !this.txtf2.getText().equals(null) && Modele.verifSaisie(this.txtf2.getText()) && (Modele.getNbAvion()>0) && (Modele.getNbDestination()>0)){
-				int idA = ((IndexLibelle) listeAvion.getSelectedItem()).getNumAvion();//id de l'avion selectionner
-				int idD = ((IndexLibelle) listeDestination.getSelectedItem()).getNumAvion();//id de la destination
-				LocalDate date =  LocalDate.parse(this.txtf2.getText()+"-"+mois+"-"+jour);//LocalDate localDate = LocalDate.parse(date);
-				Date laDate = new Date(date);
+			int taille = this.txtf2.getText().length(); // on recupere la taille de la chaine
+			String mois = (String) this.listeM.getSelectedItem();//on recupere le mois selectionner
+			String jour = (String) this.listeJ.getSelectedItem(); // on recupere le jour selectionner
+			int idA = ((IndexLibelle) listeAvion.getSelectedItem()).getNumAvion();//id de l'avion selectionner
+			int idD = ((IndexLibelle) listeDestination.getSelectedItem()).getNumAvion();//id de la destination
+			LocalDate date;
+			try{
+				date =  LocalDate.parse(this.txtf2.getText()+"-"+mois+"-"+jour);//LocalDate localDate = LocalDate.parse(date);
+			}catch(java.time.format.DateTimeParseException ec){
+				date = null;
+			}
+			Date laDate = new Date(date); // on creer une nouvelle date
+			if(taille==4  && !this.txtf2.getText().equals(null) && Modele.verifSaisie(this.txtf2.getText()) && 
+					(Modele.getNbAvion()>0) && (Modele.getNbDestination()>0)){
+				
+				
 				if(this.rad1.isSelected()){
 					Modele.ajouteVolCourrier(laDate,idA,idD);
 				}else{
@@ -130,7 +139,7 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 							revalidate();
 						}else{
 							if(Modele.verifSaisie(this.txtf2.getText())){
-								this.txt3 = new JLabel("Ne pas saisir une lettre dans la saisie de l'année et/ou rentrez une date censé.");
+								this.txt3 = new JLabel("Ne pas saisir une lettre et/ou rentrez une date censé.");
 								this.add(this.txt3);
 								revalidate();
 							}else{

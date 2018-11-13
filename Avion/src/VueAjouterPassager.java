@@ -4,34 +4,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-
-
-
-public class VueAjouter extends JPanel implements ActionListener{
+public class VueAjouterPassager extends JPanel implements ActionListener{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel txt1,txt2,txt3;
+	private JLabel txtNom,txtPrenom,txt3,txtVille;
 	private JTextField txtf1,txtf2;
 	private JButton btn;
+	private JTextField txtf3;
 	
-	public VueAjouter(){
-		this.setLayout(new GridLayout(6,1));
+	public VueAjouterPassager(){
+		this.setLayout(new GridLayout(7,1));
 		
-		this.txt1 = new JLabel("Le nom de l'avion : ");
+		this.txtNom = new JLabel("Nom du Passager : ");
 		this.txtf1 = new JTextField();
 		this.txtf1.setPreferredSize(new Dimension(100,30));
-		this.txt2 = new JLabel("Le nombre de place dans celui ci : ");
+		this.txtPrenom = new JLabel("Prenom du Passager : ");
 		this.txtf2 = new JTextField();
 		this.txtf2.setPreferredSize(new Dimension(100,30));
+		this.txtVille = new JLabel("Ville du Passager : ");
+		this.txtf3 = new JTextField();
+		this.txtf3.setPreferredSize(new Dimension(100,30));
 		this.btn = new JButton("Valider");
 		this.btn.addActionListener(this);
 		
-		this.add(this.txt1);
+		this.add(this.txtNom);
 		this.add(this.txtf1);
-		this.add(this.txt2);
+		this.add(this.txtPrenom);
 		this.add(this.txtf2);
+		this.add(this.txtVille);
+		this.add(this.txtf3);
 		this.add(this.btn);
 	}
 
@@ -39,11 +42,9 @@ public class VueAjouter extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == this.btn){
-			if(!this.txtf2.getText().equals(null) && !this.txtf1.getText().equals(null) 
-					&& !Modele.verifEstdejaSaisie("avion","nomAv",this.txt1.getText())){ // verifie que l'avion n'est pas deja saisie
-				int rep2 = Integer.parseInt(this.txtf2.getText());
-				Modele.ajouteAvion(rep2,this.txtf1.getText());
-				this.txt3 = new JLabel("Votre Avion a bien été ajouter a la base de donnee.");
+			if(!this.txtf3.getText().equals(null) && !this.txtf2.getText().equals(null) && !this.txtf1.getText().equals(null)){
+				Modele.ajoutePassager(this.txtf1.getText(),this.txtf2.getText(),this.txtf2.getText());
+				this.txt3 = new JLabel("Votre Passager a bien été ajouter a la base de donnee.");
 				this.add(this.txt3);
 				revalidate();
 			}else{

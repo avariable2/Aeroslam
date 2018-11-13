@@ -10,4 +10,9 @@ public class VolCommercial extends Vol{
 		super(unNumVol, uneDate, unNumA, uneDest);
 		
 	}
+	
+	public String toXML(){
+		String chaine = "<VOLCOMMERCIAL>\n"+super.toXML()+"\n<VOLCOMMERCIAL>";
+		return chaine;
+	}
 }

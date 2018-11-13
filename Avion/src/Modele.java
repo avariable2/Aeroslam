@@ -259,6 +259,25 @@ public class Modele {
 		Modele.deconnexion();
 		return lesVol;		
 	}
+	/***
+	 * Function qui retoure le nombre de vol courrier dans la table VolCourrier.
+	 * @author Adrien
+	 * @return nb de type int
+	 */
+	public static int getNbVolCourrier(){
+		int nb = 0;
+		Modele.connexion();
+		try {
+			st= connexion.prepareStatement("SELECT COUNT(numVol) AS nb FROM volcourrier");
+			rs = st.executeQuery();
+			rs.next();
+			nb = rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return nb;
+	}
 	
 	/***
 	 * Function qui ajoute un Vol dans la table VolCommerciaux grâce aux parametres.
@@ -364,6 +383,176 @@ public class Modele {
 			rep = false;
 		}
 		return rep;
-		
+	}
+	/***
+	 * Function qui retourne le nombre total de vol correspondant a la date mise en parametre
+	 * @param uneDate
+	 * @return nb de type int
+	 */
+	public static int getNbVolDate(String uneDate){
+		int nb = 0;
+		Modele.connexion();
+		try {
+			st = connexion.prepareStatement("SELECT COUNT(numVol) FROM volcourrier WHERE dateVol='"+uneDate+"'");
+			rs = st.executeQuery();
+			rs.next();
+			nb = rs.getInt(1);
+			rs.close();
+			st.close();
+			st = connexion.prepareStatement("SELECT COUNT(numVol) FROM volcommercial WHERE dateVol='"+uneDate+"'");
+			rs = st.executeQuery();
+			rs.next();
+			nb = nb+rs.getInt(1);
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Modele.deconnexion();
+		return nb;
+	}
+	/***
+	 * Function qui ajoute un Passager dans la table passager, renvoie true si la saise est reussie
+	 * @param unNom
+	 * @param unPrenom
+	 * @param uneVille
+	 * @return true/false
+	 */
+	public static boolean ajoutePassager(String unNom,String unPrenom, String uneVille){
+		boolean rep = false;
+		Modele.connexion();
+		try {
+			st = connexion.prepareStatement("INSERT INTO passager VALUES(null,?,?,?)");
+			st.setString(1,unNom);
+			st.setString(2,unPrenom);
+			st.setString(3,uneVille);
+			st.executeUpdate();
+			rep = true;
+			st.close();
+			Modele.deconnexion();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rep;
+	}
+	/***
+	 * Function qui retourne le nombre de Passager creer dans la table destination.
+	 * @author Adrien
+	 * @return nb de Destination dans la bdd
+	 */
+	public static int getNbPassager(){
+		int nb = 0;
+		Modele.connexion();
+		try {
+			st= connexion.prepareStatement("SELECT COUNT(idP) AS nb FROM Passager");
+			rs = st.executeQuery();
+			rs.next();
+			nb = rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return nb;
+	}
+	/***
+	 * Function qui permet de renvoyer les passagers retrer dans la table passager de la bdd.
+	 * @author Adrien
+	 * @return ArrayList<Passager> lesP
+	 */
+	public static ArrayList<Passager> voirPassager(){
+		ArrayList<Passager> lesP = new ArrayList<Passager>();
+		Modele.connexion();
+		try {
+			st = connexion.prepareStatement("SELECT * FROM Passager ");
+			rs = st.executeQuery();
+			while(rs.next()){
+				Passager unP = new Passager(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4));
+				lesP.add(unP);
+			}
+			rs.close();
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Modele.deconnexion();
+		return lesP;
+	}
+	/***
+	 * Function qui test si la valeur existe deja. Celle-ci prend en parametre un champ de type String.
+	 * @param laTable
+	 * @param leChamp
+	 * @param laRep
+	 * @return true/false
+	 */
+	public static boolean verifEstdejaSaisie(String laTable, String leChamp, String laRep){
+		boolean rep = false;
+		Modele.connexion();
+		try {
+			st = connexion.prepareStatement("SELECT COUNT(*) FROM "+laTable+" WHERE "+leChamp+"='"+laRep+"'");
+			rs = st.executeQuery();
+			rs.next();
+			if(rs.getInt(1) != 0){
+				rep = true;
+			}
+			rs.close();
+			st.close();
+			Modele.deconnexion();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rep;
+	}
+	/***
+	 * Function qui test si la valeur existe deja. Celle-ci prend en parametre un champ de type Int.
+	 * @param laTable
+	 * @param leChamp
+	 * @param laRep
+	 * @return true/false
+	 */
+	public static boolean verifEstdejaSaisie(String laTable, String leChamp, int laRep){
+		boolean rep = false;
+		Modele.connexion();
+		try {
+			st = connexion.prepareStatement("SELECT COUNT(*) FROM "+laTable+" WHERE "+leChamp+"="+laRep);
+			rs = st.executeQuery();
+			rs.next();
+			if(rs.getInt(1) != 0){
+				rep = true;
+			}
+			rs.close();
+			st.close();
+			Modele.deconnexion();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rep;
+	}
+	/***
+	 * Function qui permet d'ajouter un passager et un vol grace a leur id dans la table vol.
+	 * @param idVol
+	 * @param idPassager
+	 * @return true/false
+	 */
+	public static boolean ajouteVolPassager(int idVol, int idPassager){
+		boolean rep = false;
+		Modele.connexion();
+		try {
+			st = connexion.prepareStatement("INSERT INTO vol VALUES(?,?)");
+			st.setInt(1,idVol);
+			st.setInt(2,idPassager);
+			st.executeUpdate();
+			rep = true;
+			st.close();
+			Modele.deconnexion();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rep;
 	}
 }

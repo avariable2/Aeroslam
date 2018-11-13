@@ -39,7 +39,8 @@ public class VueAjouterDestination extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == this.btn){
-			if(!this.txtf2.getText().equals(null) && !this.txtf1.getText().equals(null)){
+			if(!this.txtf2.getText().equals(null) && !this.txtf1.getText().equals(null) &&
+					!Modele.verifEstdejaSaisie("destination", "ville_dest", this.txtf1.getText())){ // on verifie que la destination n'existe pas
 				Modele.ajouteDestination(this.txtf1.getText(),this.txtf2.getText());
 				this.txt3 = new JLabel("Votre Destination a bien été ajouter a la base de donnee.");
 				this.add(this.txt3);

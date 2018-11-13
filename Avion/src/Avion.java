@@ -34,9 +34,9 @@ public class Avion {
 		this.nomAvion = nomAvion;
 	}
 	public String toXML(){
-		String chaine = "<AVION>\n<NUMAVION>"+this.numAvion+"</NUMAVION>\n";
-		chaine = chaine + "<NOMAVION>"+this.nomAvion+"</NOMAVION>\n";
-		chaine = chaine + "<NOMBREPLACE>"+this.nbPlaces+"</NOMBREPLACE>\n</AVION>";
+		String chaine = "<AVION>\n \t <NUMAVION>"+this.numAvion+"</NUMAVION>\n";
+		chaine = chaine + "\t <NOMAVION>"+this.nomAvion+"</NOMAVION>\n";
+		chaine = chaine + "\t <NOMBREPLACE>"+this.nbPlaces+"</NOMBREPLACE>\n</AVION>";
 		return chaine;
 	}
 	

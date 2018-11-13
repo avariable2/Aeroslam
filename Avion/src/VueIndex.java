@@ -22,9 +22,11 @@ public class VueIndex extends JFrame implements ActionListener{
 	private JButton btn1;
 	private JMenu menuV;
 	private JMenuItem itemVaj;
+	private JMenuItem itemVac;
 	private JMenu menuP;
 	private JMenuItem itemPaj;
-	private JMenuItem itemVac;
+	private JMenuItem itemPac;
+	private JMenuItem itemPajV;
 
 	
 	public VueIndex(){
@@ -63,7 +65,9 @@ public class VueIndex extends JFrame implements ActionListener{
 		this.getContentPane().add(this.monPanel);
 		this.getContentPane().revalidate();
 	}
-	
+	/***
+	 * Procedure qui permet de generer le menu
+	 */
 	public void menu(){ 
 		// genere le contenue du menu
 		this.barre = new JMenuBar();
@@ -92,7 +96,11 @@ public class VueIndex extends JFrame implements ActionListener{
 		//Menu Passager
 		this.menuP = new JMenu("Passager");
 		this.itemPaj = new JMenuItem("Ajouter Passager");
-		//this.itemPaj.addActionListener(new AjoutPassager());
+		this.itemPaj.addActionListener(new AjoutPassager());
+		this.itemPac =new JMenuItem("Voir Passager");
+		this.itemPac.addActionListener(new ConsulationPassager());
+		this.itemPajV =new JMenuItem("Ajouter un vol");
+		this.itemPajV.addActionListener(new AjouterVolPassager());
 		
 		this.menuA.add(this.itemAaj);
 		this.menuA.add(this.itemAc);
@@ -101,10 +109,14 @@ public class VueIndex extends JFrame implements ActionListener{
 		this.menuD.add(this.itemDac);
 		this.menuV.add(this.itemVaj);
 		this.menuV.add(this.itemVac);
+		this.menuP.add(this.itemPaj);
+		this.menuP.add(this.itemPac);
+		this.menuP.add(this.itemPajV);
 		this.barre.add(this.menuC);
 		this.barre.add(this.menuA);
 		this.barre.add(this.menuD);
 		this.barre.add(this.menuV);
+		this.barre.add(this.menuP);
 		this.setJMenuBar(this.barre);
 	}
 	
@@ -133,9 +145,11 @@ public class VueIndex extends JFrame implements ActionListener{
 				}
 			}
 		}
-		
-		
 	}
+	/**
+	 * Interfaces qui permettent de changer de vue quand elles sont appeler.
+	 * @author Adrien
+	 */
 	class Deconnection implements ActionListener{
 
 		@Override
@@ -218,6 +232,35 @@ public class VueIndex extends JFrame implements ActionListener{
 			menu();
 			revalidate();
 		}
-		
+	}
+	class AjoutPassager implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			getContentPane().removeAll();
+			getContentPane().add(new VueAjouterPassager());
+			menu();
+			revalidate();
+		}
+	}
+	class ConsulationPassager implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			getContentPane().removeAll();
+			getContentPane().add(new VueConsultationPassager());
+			menu();
+			revalidate();
+		}
+	}
+	class AjouterVolPassager implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			getContentPane().removeAll();
+			getContentPane().add(new VueAjouterVolPassager());
+			menu();
+			revalidate();
+		}
 	}
 }

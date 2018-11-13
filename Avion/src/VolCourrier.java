@@ -23,4 +23,13 @@ public class VolCourrier extends Vol{
 		this.lesPassagers.add(unPass);
 	}
 	
+	public String toXML(){
+		String chaine = "<VOLCOURRIER>"+super.toXML()+"\t <LESPASSAGERS>\n";
+		for(int i=0;i<this.lesPassagers.size();i++){
+			chaine = chaine + "\t"+this.lesPassagers.get(i).toXML();
+		}
+		chaine = chaine + "\t </LESPASSAGERS>"+ "\n</VOLCOURRIER>";
+		return chaine;
+	}
+	
 }
