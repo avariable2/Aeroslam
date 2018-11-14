@@ -12,7 +12,7 @@ public class VueAjouter extends JPanel implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel txt1,txt2,txt3;
+	private JLabel txt1,txt2;
 	private JTextField txtf1,txtf2;
 	private JButton btn;
 	

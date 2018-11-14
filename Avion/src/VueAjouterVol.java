@@ -25,7 +25,7 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 	private JComboBox<?> listeJ, listeM;
 	private JPanel panelVol,panelDate,panelAD;
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public VueAjouterVol(){
 		this.setLayout(new GridLayout(3,1));
 		

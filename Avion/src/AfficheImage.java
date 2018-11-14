@@ -5,7 +5,11 @@ import javax.swing.*;
 
 class AfficheImage extends JPanel
 {
-    // Déclaration de la propriété fond de type Image
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// Déclaration de la propriété fond de type Image
     private Image fond;
 
     // Création du constructeur de la classe

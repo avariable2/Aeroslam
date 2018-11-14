@@ -9,7 +9,7 @@ public class VueAjouterPassager extends JPanel implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel txtNom,txtPrenom,txt3,txtVille;
+	private JLabel txtNom,txtPrenom,txtVille;
 	private JTextField txtf1,txtf2;
 	private JButton btn;
 	private JTextField txtf3;

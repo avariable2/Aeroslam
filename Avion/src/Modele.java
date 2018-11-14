@@ -561,4 +561,38 @@ public class Modele {
 		}
 		return rep;
 	}
+	/***
+	 * Recherche l'objet VolCourrier qui correspond a l'Id donné en parametre.
+	 * @param unId
+	 * @return leVolCourrier de type VolCourrier
+	 */
+	public static VolCourrier rechVolCourrier(int unId){
+		VolCourrier leV = null;
+		ArrayList<VolCourrier> lesVol = Modele.voirVolCourrier();
+		int i = 0;
+		if(i<lesVol.size() && lesVol.get(i).getNumVol()==unId){
+			i=i+1;
+		}
+		if(i<lesVol.size()){
+			leV = lesVol.get(i);
+		}
+		return leV;
+	}
+	/***
+	 * Recherche l'objet VolCourrier qui correspond a l'Id donné en parametre.
+	 * @param unId
+	 * @return leVolCourrier de type VolCourrier
+	 */
+	public static Passager rechPassager(int unId){
+		Passager leP = null;
+		ArrayList<Passager> lesP = Modele.voirPassager();
+		int i = 0;
+		if(i<lesP.size() && lesP.get(i).getNumP()==unId){
+			i=i+1;
+		}
+		if(i<lesP.size()){
+			leP = lesP.get(i);
+		}
+		return leP;
+	}
 }

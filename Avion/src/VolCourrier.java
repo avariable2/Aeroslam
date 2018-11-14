@@ -22,6 +22,12 @@ public class VolCourrier extends Vol{
 	public void ajouterPassager(Passager unPass){
 		this.lesPassagers.add(unPass);
 	}
+	public ArrayList<Passager> voirLesPassagersDuVol(){
+		return this.lesPassagers;
+	}
+	public int getNbPassagerVC(){
+		return this.lesPassagers.size();
+	}
 	
 	public String toXML(){
 		String chaine = "<VOLCOURRIER>"+super.toXML()+"\t <LESPASSAGERS>\n";
