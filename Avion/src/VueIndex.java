@@ -34,7 +34,7 @@ public class VueIndex extends JFrame implements ActionListener{
 		this.setTitle("AeroSLAM");
 		//this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(400, 400);
+		this.setSize(600, 450);
 		//this.setResizable(false);
 		this.setLayout(new GridLayout(6,1));
 		this.txt1 = new JLabel("Login : ");
@@ -54,12 +54,14 @@ public class VueIndex extends JFrame implements ActionListener{
 		this.add(this.btn1);
 		this.setVisible(true);
 	}
+	// Vue qui amene vers l'acceuil
 	public void vueAcceuil(){
 		// Page d'accueil
 		this.getContentPane().removeAll();
 		this.monPanel = new JPanel();
 		this.txt1 = new JLabel("Bienvenue");
 		this.menu();
+		this.setContentPane(new AfficheImage("C:/Users/avary.TERTIAIRE/Pictures/téléchargement.jpg"));
 		
 		this.monPanel.add(this.txt1);
 		this.getContentPane().add(this.monPanel);

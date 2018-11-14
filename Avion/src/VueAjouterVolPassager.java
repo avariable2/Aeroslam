@@ -9,11 +9,9 @@ public class VueAjouterVolPassager extends JPanel implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel txtNumV,txtPassager,txt3;
-	private JTextField txtf1,txtf2;
+	private JLabel txtNumV,txtPassager;
 	private JButton btn;
-	private JTextField txtf3;
-	private JComboBox<Integer> listeVol;
+	private JComboBox listeVol;
 	private ArrayList<VolCourrier> lesVol;
 	private JComboBox<IndexLibelle> listePassager;
 	private ArrayList<Passager> lesP;
@@ -22,15 +20,15 @@ public class VueAjouterVolPassager extends JPanel implements ActionListener{
 		this.setLayout(new GridLayout(7,1));
 		
 		this.txtNumV = new JLabel("Choissiez votre vol : ");
-		this.listeVol = new JComboBox<Integer>();
+		this.listeVol = new JComboBox();
 		this.lesVol = Modele.voirVolCourrier();
 		for(int i =0; i<Modele.getNbVolCourrier();i++){
 			this.listeVol.addItem(lesVol.get(i).getNumVol());
 		}
-		this.txtPassager = new JLabel("Choisir votre passager a ajouter dans ce Vol :");
-		this.listePassager = new JComboBox<IndexLibelle>();
 		this.lesP = Modele.voirPassager();
-		for(int i =0; i<Modele.getNbVolCourrier();i++){
+		this.txtPassager = new JLabel("Choisir votre passager a ajouter dans ce Vol :");
+		this.listePassager = new JComboBox();
+		for(int i=0; i<Modele.getNbVolCourrier();i++){
 			this.listePassager.addItem(new IndexLibelle(lesP.get(i).getNumP(),lesP.get(i).getNomP()));
 		}
 		this.btn = new JButton("Valider");
@@ -49,12 +47,11 @@ public class VueAjouterVolPassager extends JPanel implements ActionListener{
 		if(e.getSource() == this.btn){
 			int id = ((IndexLibelle) this.listePassager.getSelectedItem()).getNumAvion();
 			if(!Modele.verifEstdejaSaisie("Vol","numvol",id) && Modele.ajouteVolPassager((int) listeVol.getSelectedItem(),id)){
-				this.txt3 = new JLabel("Vous avez bien ajouter ce passager dans ce vol.");
-				this.add(this.txt3);
+				JOptionPane.showMessageDialog(null, "Votre Vol a bien été ajouté ! ", "Information", JOptionPane.INFORMATION_MESSAGE);
 				this.revalidate();
 			}else{
-				this.txt3 = new JLabel("Vous avez deja ajoutez ce passager a ce vol.");
-				this.add(this.txt3);
+				JOptionPane.showMessageDialog(null, "Vous avez deja ajoutez ce passager a ce vol.",
+						"Erreur", JOptionPane.ERROR_MESSAGE);
 				this.revalidate();
 			}
 		}

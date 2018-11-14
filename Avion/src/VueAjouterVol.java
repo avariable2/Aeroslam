@@ -119,32 +119,29 @@ public class VueAjouterVol extends JPanel implements ActionListener{
 						Modele.ajouteVolCourrier(laDate,idA,idD);
 					}
 				}
-				this.txt3 = new JLabel("Votre vol a ete ajouter !");
-				this.add(this.txt3);
+				JOptionPane.showMessageDialog(null, "Votre Vol a bien été ajouté ! ", "Information", JOptionPane.INFORMATION_MESSAGE);
 				revalidate();
 			}else{
 				if((Modele.getNbAvion()==0)){
-					this.txt3 = new JLabel("Vous ne pouvez creer un vol aucun avion n'a été créer.");
-					this.add(this.txt3);
+					JOptionPane.showMessageDialog(null, "Vous ne pouvez creer un vol aucun avion n'a été créer.",
+							"Erreur", JOptionPane.ERROR_MESSAGE);
 					revalidate();
 				}else{
 					if((Modele.getNbDestination()==0)){
-						this.txt3 = new JLabel("Vous ne pouvez creer un vol aucune destination n'a été créer.");
-						this.add(this.txt3);
+						JOptionPane.showMessageDialog(null, "Vous ne pouvez creer un vol aucune destination n'a été créer.",
+								"Erreur", JOptionPane.ERROR_MESSAGE);
 						revalidate();
 					}else{
 						if(taille>=5){
-							this.txt3 = new JLabel("La date saisie est trop longue.");
-							this.add(this.txt3);
+							JOptionPane.showMessageDialog(null, "La date saisie est trop longue", "Erreur", JOptionPane.ERROR_MESSAGE);
 							revalidate();
 						}else{
 							if(Modele.verifSaisie(this.txtf2.getText())){
-								this.txt3 = new JLabel("Ne pas saisir une lettre et/ou rentrez une date censé.");
-								this.add(this.txt3);
+								JOptionPane.showMessageDialog(null, "Ne pas saisir une lettre et/ou rentrez une date censé.",
+										"Erreur", JOptionPane.ERROR_MESSAGE);
 								revalidate();
 							}else{
-								this.txt3 = new JLabel("Veuillez saisir tout les champs.");
-								this.add(this.txt3);
+								JOptionPane.showMessageDialog(null, "Veuillez saisir tout les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
 								revalidate();
 							}
 						}

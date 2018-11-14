@@ -136,6 +136,7 @@ public class Modele {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Modele.deconnexion();
 		return nb;
 	}
 	
@@ -204,6 +205,7 @@ public class Modele {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Modele.deconnexion();
 		return nb;
 	}
 	/***
@@ -228,7 +230,6 @@ public class Modele {
 				rep = true;
 				st.close();
 				Modele.deconnexion();
-				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -276,6 +277,7 @@ public class Modele {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Modele.deconnexion();
 		return nb;
 	}
 	
@@ -435,6 +437,7 @@ public class Modele {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Modele.deconnexion();
 		return rep;
 	}
 	/***
@@ -450,10 +453,13 @@ public class Modele {
 			rs = st.executeQuery();
 			rs.next();
 			nb = rs.getInt(1);
+			rs.close();
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Modele.deconnexion();
 		return nb;
 	}
 	/***
@@ -491,7 +497,7 @@ public class Modele {
 		boolean rep = false;
 		Modele.connexion();
 		try {
-			st = connexion.prepareStatement("SELECT COUNT(*) FROM "+laTable+" WHERE "+leChamp+"='"+laRep+"'");
+			st = connexion.prepareStatement("SELECT COUNT(*) FROM `"+laTable+"` WHERE `"+leChamp+"`='"+laRep+"'");
 			rs = st.executeQuery();
 			rs.next();
 			if(rs.getInt(1) != 0){
@@ -517,7 +523,7 @@ public class Modele {
 		boolean rep = false;
 		Modele.connexion();
 		try {
-			st = connexion.prepareStatement("SELECT COUNT(*) FROM "+laTable+" WHERE "+leChamp+"="+laRep);
+			st = connexion.prepareStatement("SELECT COUNT(*) FROM `"+laTable+"` WHERE `"+leChamp+"`="+laRep);
 			rs = st.executeQuery();
 			rs.next();
 			if(rs.getInt(1) != 0){

@@ -44,12 +44,10 @@ public class VueAjouterPassager extends JPanel implements ActionListener{
 		if(e.getSource() == this.btn){
 			if(!this.txtf3.getText().equals(null) && !this.txtf2.getText().equals(null) && !this.txtf1.getText().equals(null)){
 				Modele.ajoutePassager(this.txtf1.getText(),this.txtf2.getText(),this.txtf2.getText());
-				this.txt3 = new JLabel("Votre Passager a bien été ajouter a la base de donnee.");
-				this.add(this.txt3);
+				JOptionPane.showMessageDialog(null, "Votre Passager a bien été ajouté ! ", "Information", JOptionPane.INFORMATION_MESSAGE);
 				revalidate();
 			}else{
-				this.txt3 = new JLabel("Veuillez saisir tout les champs.");
-				this.add(this.txt3);
+				JOptionPane.showMessageDialog(null, "Veuillez saisir tout les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
 				revalidate();
 			}
 		}

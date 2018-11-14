@@ -42,12 +42,10 @@ public class VueAjouterDestination extends JPanel implements ActionListener{
 			if(!this.txtf2.getText().equals(null) && !this.txtf1.getText().equals(null) &&
 					!Modele.verifEstdejaSaisie("destination", "ville_dest", this.txtf1.getText())){ // on verifie que la destination n'existe pas
 				Modele.ajouteDestination(this.txtf1.getText(),this.txtf2.getText());
-				this.txt3 = new JLabel("Votre Destination a bien été ajouter a la base de donnee.");
-				this.add(this.txt3);
+				JOptionPane.showMessageDialog(null, "Votre Destination a bien été ajouté ! ", "Information", JOptionPane.INFORMATION_MESSAGE);
 				revalidate();
 			}else{
-				this.txt3 = new JLabel("Veuillez saisir tout les champs.");
-				this.add(this.txt3);
+				JOptionPane.showMessageDialog(null, "Veuillez saisir tout les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
 				revalidate();
 			}
 		}

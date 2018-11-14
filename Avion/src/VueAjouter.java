@@ -43,12 +43,10 @@ public class VueAjouter extends JPanel implements ActionListener{
 					&& !Modele.verifEstdejaSaisie("avion","nomAv",this.txt1.getText())){ // verifie que l'avion n'est pas deja saisie
 				int rep2 = Integer.parseInt(this.txtf2.getText());
 				Modele.ajouteAvion(rep2,this.txtf1.getText());
-				this.txt3 = new JLabel("Votre Avion a bien été ajouter a la base de donnee.");
-				this.add(this.txt3);
+				JOptionPane.showMessageDialog(null, "Votre Avion a bien été ajouté ! ", "Information", JOptionPane.INFORMATION_MESSAGE);
 				revalidate();
 			}else{
-				this.txt3 = new JLabel("Veuillez saisir tout les champs.");
-				this.add(this.txt3);
+				JOptionPane.showMessageDialog(null, "Veuillez saisir tout les champs", "Erreur", JOptionPane.ERROR_MESSAGE);
 				revalidate();
 			}
 		}
