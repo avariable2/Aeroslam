@@ -24,7 +24,7 @@ public class VueAjouterVolPassager extends JPanel implements ActionListener{
 		this.txtNumV = new JLabel("Choissiez votre vol : ");
 		this.listeVol = new JComboBox();
 		this.lesVol = Modele.voirVolCourrier();
-		for(int i =0; i<Modele.getNbVolCourrier();i++){
+		for(int i=0; i<Modele.getNbVolCourrier();i++){
 			this.listeVol.addItem(lesVol.get(i).getNumVol());
 		}
 		this.lesP = Modele.voirPassager();

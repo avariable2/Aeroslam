@@ -570,7 +570,7 @@ public class Modele {
 		VolCourrier leV = null;
 		ArrayList<VolCourrier> lesVol = Modele.voirVolCourrier();
 		int i = 0;
-		if(i<lesVol.size() && lesVol.get(i).getNumVol()==unId){
+		while(i<lesVol.size() && lesVol.get(i).getNumVol()==unId){
 			i=i+1;
 		}
 		if(i<lesVol.size()){
@@ -587,7 +587,7 @@ public class Modele {
 		Passager leP = null;
 		ArrayList<Passager> lesP = Modele.voirPassager();
 		int i = 0;
-		if(i<lesP.size() && lesP.get(i).getNumP()==unId){
+		while(i<lesP.size() && lesP.get(i).getNumP()==unId){
 			i=i+1;
 		}
 		if(i<lesP.size()){

@@ -13,32 +13,15 @@ public class VueConsultationVolAPassager extends JPanel implements ActionListene
 	private JTable tableau;
 	private JScrollPane scrollPane;
 	private int nb;
-	private Object[][] data = new Object[nb][5];
-	private String[] title = { "Numero Vol", "Date départ", "Numero Avion", "Numero Destination", "Passagers" };
+	private Object[][] data = new Object[nb][4];
+	private String[] title = { "Numero Passager", "Nom", "Prenom", "Ville" };
 	private JLabel txtNumV;
+	@SuppressWarnings("rawtypes")
 	private JComboBox listeVol;
 	private ArrayList<VolCourrier> lesVol;
 	private JButton btn;
 	
 	public VueConsultationVolAPassager(){
-		/*ArrayList<VolCourrier> lesVol = Modele.voirVolCourrier();
-		for(int i =0; i<Modele.getNbVol();i++){
-			this.data[i][0]=lesVol.get(i).getNumVol();
-			this.data[i][1]=lesVol.get(i).getDate().getDateFrancais();
-			this.data[i][2]=lesVol.get(i).getNumAvion();
-			this.data[i][3]=lesVol.get(i).getDestination();
-			for(int j = 0;j<lesVol.get(i).getNbPassagerVC();i++){
-				Passager lePassager = lesVol.get(i).voirLesPassagersDuVol().get(j);
-				this.data[i][j+4]=lePassager.getNomP();
-			}
-		}
-		this.tableau = new JTable(this.data, this.title);
-		this.tableau.setRowHeight(30); // espacement des cellules
-		this.tableau
-				.setPreferredScrollableViewportSize(new Dimension(300, 300));
-		this.scrollPane = new JScrollPane(this.tableau);*/
-		
-		//this.add(this.scrollPane);
 		this.setLayout(new GridLayout(7,1));
 		
 		this.txtNumV = new JLabel("Choissiez votre vol : ");
@@ -59,7 +42,24 @@ public class VueConsultationVolAPassager extends JPanel implements ActionListene
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() == this.btn){
-			
+			this.removeAll();
+			this.lesVol = Modele.voirVolCourrier();
+			this.nb = lesVol.size();
+			VolCourrier leVol = lesVol.get((int) this.listeVol.getSelectedIndex());
+			for(int i =0; i<leVol.voirLesPassagersDuVol().size();i++){
+				this.data[i][0] = leVol.voirLesPassagersDuVol().get(i).getNumP();
+				this.data[i][1] = leVol.voirLesPassagersDuVol().get(i).getNomP();
+				this.data[i][2] = leVol.voirLesPassagersDuVol().get(i).getPrenomP();
+				this.data[i][3] = leVol.voirLesPassagersDuVol().get(i).getVille();
+			}
+			this.tableau = new JTable(this.data, this.title);
+			this.tableau.setRowHeight(30); // espacement des cellules
+			this.tableau
+					.setPreferredScrollableViewportSize(new Dimension(300, 300));
+			this.scrollPane = new JScrollPane(this.tableau);
+			this.add(new JLabel("Les passagers du Vol en direction : "+leVol.getDestination()));
+			this.add(this.scrollPane);
+			this.revalidate();
 		}
 	}
 	

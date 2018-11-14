@@ -27,6 +27,7 @@ public class VueIndex extends JFrame implements ActionListener{
 	private JMenuItem itemPaj;
 	private JMenuItem itemPac;
 	private JMenuItem itemPajV;
+	private JMenuItem itemVacP;
 
 	
 	public VueIndex(){
@@ -95,6 +96,9 @@ public class VueIndex extends JFrame implements ActionListener{
 		this.itemVaj.addActionListener(new AjoutVol());
 		this.itemVac = new JMenuItem("Consulter Vol");
 		this.itemVac.addActionListener(new ConsultationVol());
+		this.itemVacP = new JMenuItem("Voir Passager d'un Vol");
+		this.itemVacP.addActionListener(new ConsultationVolPassager());
+		
 		//Menu Passager
 		this.menuP = new JMenu("Passager");
 		this.itemPaj = new JMenuItem("Ajouter Passager");
@@ -111,6 +115,7 @@ public class VueIndex extends JFrame implements ActionListener{
 		this.menuD.add(this.itemDac);
 		this.menuV.add(this.itemVaj);
 		this.menuV.add(this.itemVac);
+		this.menuV.add(this.itemVacP);
 		this.menuP.add(this.itemPaj);
 		this.menuP.add(this.itemPac);
 		this.menuP.add(this.itemPajV);
@@ -261,6 +266,16 @@ public class VueIndex extends JFrame implements ActionListener{
 			// TODO Auto-generated method stub
 			getContentPane().removeAll();
 			getContentPane().add(new VueAjouterVolPassager());
+			menu();
+			revalidate();
+		}
+	}
+	class ConsultationVolPassager implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			getContentPane().removeAll();
+			getContentPane().add(new VueConsultationVolAPassager());
 			menu();
 			revalidate();
 		}
